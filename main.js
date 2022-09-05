@@ -21,15 +21,13 @@ floor.rotateX(-Math.PI * 0.5);
 floor.position.z = 30;
 scene.add(floor);
 
-renderer.render(scene, camera);
-
-const screenGeometry = new THREE.PlaneGeometry(40, 20);
+const screenGeometry = new THREE.PlaneGeometry(40, 22.5);
 
 const createScreenRow = (height, numberOfScreens) => {
-  const offsetX = ((numberOfScreens - 1) * 45) / 2;
+  const offsetX = ((numberOfScreens - 1) * 43.5) / 2;
   for (let i = 0; i < numberOfScreens; i += 1) {
     const x = i * 45 - offsetX;
-    const y = height + 20;
+    const y = height + 22.5;
     const randColor = (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
 
     const screenMaterial = new THREE.MeshBasicMaterial({ color: `#${randColor}` });
@@ -45,7 +43,7 @@ const createScreenRow = (height, numberOfScreens) => {
 
 const createScreens = (numberOfRows, screensPerRow) => {
   for (let i = 0; i < numberOfRows; i += 1) {
-    createScreenRow(i * 25, screensPerRow);
+    createScreenRow(i * 26, screensPerRow);
   }
 };
 
