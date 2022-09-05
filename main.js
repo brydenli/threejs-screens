@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight);
@@ -9,7 +10,7 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.set(0, 0, 90);
+camera.position.set(0, 60, 100);
 
 const floorTexture = new THREE.TextureLoader().load('floor.png');
 const floorGeometry = new THREE.PlaneGeometry(300, 300);
@@ -20,6 +21,15 @@ const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotateX(-Math.PI * 0.5);
 floor.position.z = 30;
 scene.add(floor);
+
+const gltfLoader = new GLTFLoader();
+gltfLoader.load('./text.glb', (glb) => {
+  const text = glb.scene;
+  text.scale.set(10, 10, 10);
+  text.position.set(-50, 5, 15);
+  text.rotateX(0.3);
+  scene.add(text);
+});
 
 const screenGeometry = new THREE.PlaneGeometry(40, 22.5);
 
