@@ -9,9 +9,14 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.z = 90;
-camera.position.x = -35;
-camera.position.y = 35;
+camera.position.set(-35, 35, 90);
+
+const floorGeometry = new THREE.PlaneGeometry(200, 200);
+const floorMaterial = new THREE.MeshBasicMaterial({ color: '#006400' });
+const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+floor.rotateX(-Math.PI * 0.5);
+
+scene.add(floor);
 
 renderer.render(scene, camera);
 
@@ -24,7 +29,7 @@ const createScreenRow = (height, numberOfScreens) => {
     const x = i * 25;
     const screen = new THREE.Mesh(screenGeometry, screenMaterial);
     screen.position.setX(x - offsetX);
-    screen.position.setY(height);
+    screen.position.setY(height + 10);
 
     scene.add(screen);
   }
