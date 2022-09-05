@@ -9,44 +9,52 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.set(-35, 35, 90);
+camera.position.set(0, 0, 90);
 
-const floorGeometry = new THREE.PlaneGeometry(200, 200);
-const floorMaterial = new THREE.MeshBasicMaterial({ color: '#006400' });
+const floorTexture = new THREE.TextureLoader().load('floor.png');
+const floorGeometry = new THREE.PlaneGeometry(300, 300);
+const floorMaterial = new THREE.MeshPhongMaterial({
+  color: '#020202', shininess: 30, map: floorTexture,
+});
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotateX(-Math.PI * 0.5);
-
+floor.position.z = 30;
 scene.add(floor);
 
 renderer.render(scene, camera);
 
-const screenGeometry = new THREE.PlaneGeometry(20, 10);
-const screenMaterial = new THREE.MeshBasicMaterial({ color: 'hotpink' });
+const screenGeometry = new THREE.PlaneGeometry(40, 20);
 
 const createScreenRow = (height, numberOfScreens) => {
-  const offsetX = ((numberOfScreens - 1) * 25) / 2;
+  const offsetX = ((numberOfScreens - 1) * 45) / 2;
   for (let i = 0; i < numberOfScreens; i += 1) {
-    const x = i * 25;
-    const screen = new THREE.Mesh(screenGeometry, screenMaterial);
-    screen.position.setX(x - offsetX);
-    screen.position.setY(height + 10);
+    const x = i * 45 - offsetX;
+    const y = height + 20;
+    const randColor = (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
 
-    scene.add(screen);
+    const screenMaterial = new THREE.MeshBasicMaterial({ color: `#${randColor}` });
+    const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+    screen.position.set(x, y);
+
+    const pointLight = new THREE.PointLight(`#${randColor}`);
+    pointLight.position.set(x, y);
+
+    scene.add(screen, pointLight);
   }
 };
 
 const createScreens = (numberOfRows, screensPerRow) => {
   for (let i = 0; i < numberOfRows; i += 1) {
-    createScreenRow(i * 15, screensPerRow);
+    createScreenRow(i * 25, screensPerRow);
   }
 };
 
-createScreens(3, 4);
+createScreens(2, 3);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.maxAzimuthAngle = 1;
 controls.minAzimuthAngle = -1;
-controls.maxPolarAngle = Math.PI / 2;
+controls.maxPolarAngle = 1.5;
 controls.minPolarAngle = 0.2;
 
 const animate = () => {
