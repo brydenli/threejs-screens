@@ -52,10 +52,12 @@ const createScreens = (numberOfRows, screensPerRow) => {
 createScreens(2, 3);
 
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.maxAzimuthAngle = 1;
-controls.minAzimuthAngle = -1;
+controls.maxAzimuthAngle = 0.4;
+controls.minAzimuthAngle = -0.4;
 controls.maxPolarAngle = 1.5;
-controls.minPolarAngle = 0.2;
+controls.minPolarAngle = 1;
+controls.maxDistance = 150;
+controls.minDistance = 100;
 
 const animate = () => {
   requestAnimationFrame(animate);
