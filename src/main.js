@@ -33,7 +33,7 @@ const ambientLight = new THREE.AmbientLight('#FFFFFF', 1.5);
 scene.add(ambientLight);
 
 const gltfLoader = new GLTFLoader();
-gltfLoader.load('./text.glb', (glb) => {
+gltfLoader.load('./src/assets/text.glb', (glb) => {
   const text = glb.scene;
   text.scale.set(5.5, 5.5, 5.5);
   text.position.set(-20, -5, 20);
@@ -42,7 +42,7 @@ gltfLoader.load('./text.glb', (glb) => {
 });
 
 // desktop 1
-gltfLoader.load('./screen_desktop.glb', (glb) => {
+gltfLoader.load('./src/assets/screen_desktop.glb', (glb) => {
   const desktop = glb.scene;
   desktop.scale.set(15, 15, 15);
   desktop.position.set(-53, 10, 11);
@@ -56,7 +56,7 @@ gltfLoader.load('./screen_desktop.glb', (glb) => {
 });
 
 // desktop 2
-gltfLoader.load('./screen_desktop2.glb', (glb) => {
+gltfLoader.load('./src/assets/screen_desktop2.glb', (glb) => {
   const desktop = glb.scene;
   desktop.scale.set(15, 15, 15);
   desktop.position.set(0, 10, 0);
@@ -69,7 +69,7 @@ gltfLoader.load('./screen_desktop2.glb', (glb) => {
 });
 
 // desktop 3
-gltfLoader.load('./screen_desktop3.glb', (glb) => {
+gltfLoader.load('./src/assets/screen_desktop3.glb', (glb) => {
   const desktop = glb.scene;
   desktop.scale.set(15, 15, 15);
   desktop.position.set(53, 10, 11);
@@ -83,7 +83,7 @@ gltfLoader.load('./screen_desktop3.glb', (glb) => {
 });
 
 // desktop 4
-gltfLoader.load('./screen_desktop4.glb', (glb) => {
+gltfLoader.load('./src/assets/screen_desktop4.glb', (glb) => {
   const desktop = glb.scene;
   desktop.scale.set(15, 15, 15);
   desktop.position.set(-53, 41, 11);
@@ -97,7 +97,7 @@ gltfLoader.load('./screen_desktop4.glb', (glb) => {
 });
 
 // desktop 5
-gltfLoader.load('./screen_desktop5.glb', (glb) => {
+gltfLoader.load('./src/assets/screen_desktop5.glb', (glb) => {
   const desktop = glb.scene;
   desktop.scale.set(15, 15, 15);
   desktop.position.set(0, 41, 0);
@@ -110,7 +110,7 @@ gltfLoader.load('./screen_desktop5.glb', (glb) => {
 });
 
 // desktop 6
-gltfLoader.load('./screen_desktop2.glb', (glb) => {
+gltfLoader.load('./src/assets/screen_desktop6.glb', (glb) => {
   const desktop = glb.scene;
   desktop.scale.set(15, 15, 15);
   desktop.position.set(53, 41, 11);
