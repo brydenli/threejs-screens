@@ -113,23 +113,23 @@ const createScreens = (rows, columns) => {
     scene.add(screenMeshMiddle, screenBoxMeshMiddle);
 
     for (let j = 1; j <= halfCol; j += 1) {
-        const screenMeshRight = new THREE.Mesh(screenGeometry, textureArr[rand(textureArr.length)]);
-        screenMeshRight.position.set(X[j], Y[i], Z[j]);
-        screenMeshRight.rotateY(-zRotate[j]);
+      const screenMeshRight = new THREE.Mesh(screenGeometry, textureArr[rand(textureArr.length)]);
+      screenMeshRight.position.set(X[j], Y[i], Z[j]);
+      screenMeshRight.rotateY(-zRotate[j]);
 
-        const screenBoxMeshRight = new THREE.Mesh(screenBoxGeometry, screenBoxMaterial);
-        screenBoxMeshRight.position.set(X2[j], Y[i], Z2[j]);
-        screenBoxMeshRight.rotateY(-zRotate[j]);
+      const screenBoxMeshRight = new THREE.Mesh(screenBoxGeometry, screenBoxMaterial);
+      screenBoxMeshRight.position.set(X2[j], Y[i], Z2[j]);
+      screenBoxMeshRight.rotateY(-zRotate[j]);
 
-        const screenMeshLeft = new THREE.Mesh(screenGeometry, textureArr[rand(textureArr.length)]);
-        screenMeshLeft.position.set(-X[j], Y[i], Z[j])
-        screenMeshLeft.rotateY(zRotate[j]);
+      const screenMeshLeft = new THREE.Mesh(screenGeometry, textureArr[rand(textureArr.length)]);
+      screenMeshLeft.position.set(-X[j], Y[i], Z[j])
+      screenMeshLeft.rotateY(zRotate[j]);
 
-        const screenBoxMeshLeft = new THREE.Mesh(screenBoxGeometry, screenBoxMaterial);
-        screenBoxMeshLeft.position.set(-X2[j], Y[i], Z2[j]);
-        screenBoxMeshLeft.rotateY(zRotate[j]);
+      const screenBoxMeshLeft = new THREE.Mesh(screenBoxGeometry, screenBoxMaterial);
+      screenBoxMeshLeft.position.set(-X2[j], Y[i], Z2[j]);
+      screenBoxMeshLeft.rotateY(zRotate[j]);
 
-        scene.add(screenMeshRight, screenMeshLeft, screenBoxMeshRight, screenBoxMeshLeft);
+      scene.add(screenMeshRight, screenMeshLeft, screenBoxMeshRight, screenBoxMeshLeft);
     }
   }
 }
