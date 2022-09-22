@@ -8,3 +8,16 @@ canvas {
   top: 0;
   left: 0;
 }
+
+.logo-container {
+  position: absolute;
+	z-index: 100;
+  left: 3rem;
+  bottom: 4rem;
+}
+
+.logo-container img {
+  height: 2.5rem;
+  width: auto;
+  margin-right: 3rem;
+}

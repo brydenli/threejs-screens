@@ -11,132 +11,145 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.set(0, 50, 120);
+camera.position.set(0, 10, 120);
 
 const floorGeometry = new THREE.PlaneGeometry(1000, 200);
 const floor = new Reflector(floorGeometry);
 floor.rotateX(-Math.PI * 0.5);
-floor.position.set(0, -10, 30);
+floor.position.set(0, -40, 30);
 scene.add(floor);
 
 const blurFloorMaterial = new THREE.MeshStandardMaterial({
   color: "#000000",
   transparent: true,
-  opacity: 0.9,
+  opacity: 0.85,
 })
 const blurFloor = new THREE.Mesh(floorGeometry, blurFloorMaterial);
 blurFloor.rotateX(-Math.PI * 0.5);
-blurFloor.position.set(0, -9, 30);
+blurFloor.position.set(0, -39, 30);
 scene.add(blurFloor);
 
-const ambientLight = new THREE.AmbientLight('#FFFFFF', 1.5);
+const ambientLight = new THREE.AmbientLight('#90DFFF', 1.5);
 scene.add(ambientLight);
 
 const gltfLoader = new GLTFLoader();
-gltfLoader.load('./src/assets/text.glb', (glb) => {
+gltfLoader.load('src/assets/models/text.glb', (glb) => {
   const text = glb.scene;
-  text.scale.set(5.5, 5.5, 5.5);
-  text.position.set(-20, -5, 20);
+  text.scale.set(6.5, 6.5, 6.5);
+  text.position.set(-20, -35, 40);
   text.rotateX(0.5);
   scene.add(text);
 });
 
-// desktop 1
-gltfLoader.load('./src/assets/screen_desktop.glb', (glb) => {
-  const desktop = glb.scene;
-  desktop.scale.set(15, 15, 15);
-  desktop.position.set(-53, 10, 11);
-  desktop.rotateX(Math.PI / 2);
-  desktop.rotateY(Math.PI);
-  desktop.rotateZ(0.4);
+const X = [0, 38, 71, 92.7, 98.8];
+const X2 = [0, 38.5, 72.25, 94.25, 101];
 
-  const pointLight = new THREE.PointLight('#1F51FF', 1.2);
-  pointLight.position.set(-53, 10, 0);
-  scene.add(desktop, pointLight);
+const BASE_Y = -27.5;
+const DISPLACEMENT_Y = 24;
+const Y = Array(8).fill().map((e, i) => BASE_Y + i * DISPLACEMENT_Y);
+
+const Z = [0, 7.5, 28, 60, 98];
+const Z2 = [0, 6, 27, 59.25, 97.75];
+const zRotate = [0, 0.4, 0.8, 1.2, 1.6];
+
+const loader = new THREE.TextureLoader();
+
+const videoHTML = [
+  document.getElementById('video1'),
+  document.getElementById('video2'),
+  document.getElementById('video3'),
+  document.getElementById('video4'),
+]
+
+const imageTextures = [
+  loader.load('src/assets/images/1.PNG'),
+  loader.load('src/assets/images/2.PNG'),
+  loader.load('src/assets/images/3.PNG'),
+  loader.load('src/assets/images/4.PNG'),
+  loader.load('src/assets/images/5.PNG'),
+  loader.load('src/assets/images/6.PNG'),
+]
+
+const videoMaterial = (num) => {
+  const texture = new THREE.VideoTexture(videoHTML[num - 1]);
+  return new THREE.MeshPhongMaterial({
+    map: texture,
+  })
+} 
+
+const screenMaterial = (num) => {
+  return new THREE.MeshPhongMaterial({
+    map: imageTextures[num - 1],
+  });
+}
+
+const screenGeometry = new THREE.PlaneGeometry(37.75, 21.8);
+const screenBoxGeometry = new THREE.BoxGeometry(37.75, 21.8, 3);
+const screenBoxMaterial = new THREE.MeshPhongMaterial({
+  color: "#6CFF4E",
 });
 
-// desktop 2
-gltfLoader.load('./src/assets/screen_desktop2.glb', (glb) => {
-  const desktop = glb.scene;
-  desktop.scale.set(15, 15, 15);
-  desktop.position.set(0, 10, 0);
-  desktop.rotateX(Math.PI / 2);
-  desktop.rotateY(Math.PI);
+const rand = (len) => Math.round(Math.random() * len - 1);
+const textureArr = [
+  videoMaterial(1),
+  videoMaterial(2),
+  videoMaterial(3),
+  videoMaterial(4),
+  screenMaterial(1),
+  screenMaterial(2),
+  screenMaterial(3),
+  screenMaterial(4),
+  screenMaterial(5),
+  screenMaterial(6),
+];
 
-  const pointLight = new THREE.PointLight('#1F51FF', 1.2);
-  pointLight.position.set(0, 10, 0);
-  scene.add(desktop, pointLight);
-});
+const createScreens = (rows, columns) => {
+  const halfCol = columns / 2;
+  for (let i = 0; i < rows; i += 1) {
+    const screenMeshMiddle = new THREE.Mesh(screenGeometry, textureArr[i]);
+    const screenBoxMeshMiddle = new THREE.Mesh(screenBoxGeometry, screenBoxMaterial);
+    screenMeshMiddle.position.set(0, Y[i], 0);
+    screenBoxMeshMiddle.position.set(0, Y[i], -1.6);
+    scene.add(screenMeshMiddle, screenBoxMeshMiddle);
 
-// desktop 3
-gltfLoader.load('./src/assets/screen_desktop3.glb', (glb) => {
-  const desktop = glb.scene;
-  desktop.scale.set(15, 15, 15);
-  desktop.position.set(53, 10, 11);
-  desktop.rotateX(Math.PI / 2);
-  desktop.rotateY(Math.PI);
-  desktop.rotateZ(-0.4);
+    for (let j = 1; j <= halfCol; j += 1) {
+        const screenMeshRight = new THREE.Mesh(screenGeometry, textureArr[rand(textureArr.length)]);
+        screenMeshRight.position.set(X[j], Y[i], Z[j]);
+        screenMeshRight.rotateY(-zRotate[j]);
 
-  const pointLight = new THREE.PointLight('#1F51FF', 1.2);
-  pointLight.position.set(53, 10, 0);
-  scene.add(desktop, pointLight);
-});
+        const screenBoxMeshRight = new THREE.Mesh(screenBoxGeometry, screenBoxMaterial);
+        screenBoxMeshRight.position.set(X2[j], Y[i], Z2[j]);
+        screenBoxMeshRight.rotateY(-zRotate[j]);
 
-// desktop 4
-gltfLoader.load('./src/assets/screen_desktop4.glb', (glb) => {
-  const desktop = glb.scene;
-  desktop.scale.set(15, 15, 15);
-  desktop.position.set(-53, 41, 11);
-  desktop.rotateX(Math.PI / 2);
-  desktop.rotateY(Math.PI);
-  desktop.rotateZ(0.4);
+        const screenMeshLeft = new THREE.Mesh(screenGeometry, textureArr[rand(textureArr.length)]);
+        screenMeshLeft.position.set(-X[j], Y[i], Z[j])
+        screenMeshLeft.rotateY(zRotate[j]);
 
-  const pointLight = new THREE.PointLight('#1F51FF', 1.2);
-  pointLight.position.set(-53, 41, 0);
-  scene.add(desktop, pointLight);
-});
+        const screenBoxMeshLeft = new THREE.Mesh(screenBoxGeometry, screenBoxMaterial);
+        screenBoxMeshLeft.position.set(-X2[j], Y[i], Z2[j]);
+        screenBoxMeshLeft.rotateY(zRotate[j]);
 
-// desktop 5
-gltfLoader.load('./src/assets/screen_desktop5.glb', (glb) => {
-  const desktop = glb.scene;
-  desktop.scale.set(15, 15, 15);
-  desktop.position.set(0, 41, 0);
-  desktop.rotateX(Math.PI / 2);
-  desktop.rotateY(Math.PI);
+        scene.add(screenMeshRight, screenMeshLeft, screenBoxMeshRight, screenBoxMeshLeft);
+    }
+  }
+}
 
-  const pointLight = new THREE.PointLight('#1F51FF', 1.2);
-  pointLight.position.set(0, 41, 0);
-  scene.add(desktop, pointLight);
-});
-
-// desktop 6
-gltfLoader.load('./src/assets/screen_desktop6.glb', (glb) => {
-  const desktop = glb.scene;
-  desktop.scale.set(15, 15, 15);
-  desktop.position.set(53, 41, 11);
-  desktop.rotateX(Math.PI / 2);
-  desktop.rotateY(Math.PI);
-  desktop.rotateZ(-0.4);
-
-  const pointLight = new THREE.PointLight('#1F51FF', 1.2);
-  pointLight.position.set(53, 41, 0);
-  scene.add(desktop, pointLight);
-});
+createScreens(8, 8);
 
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.maxAzimuthAngle = 0.6;
-controls.minAzimuthAngle = -0.6;
+controls.maxAzimuthAngle = 0.65;
+controls.minAzimuthAngle = -0.65;
 controls.maxPolarAngle = 1.5;
-controls.minPolarAngle = .8;
-controls.maxDistance = 130;
+controls.minPolarAngle = 1.2;
+controls.maxDistance = 150;
 controls.minDistance = 50;
 controls.enableDamping = true;
-controls.screenSpacePanning = false;
+controls.screenSpacePanning = true;
+controls.enablePan = false;
 
 const animate = () => {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
-
   controls.update();
 };
 
